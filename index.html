@@ -19,6 +19,8 @@
       --blue-glow: rgba(61,127,255,.25);
       --green:     #00e5a0;
       --green-dim: rgba(0,229,160,.1);
+      --gold:      #ffb13d;
+      --gold-dim:  rgba(255,177,61,.12);
       --txt:       #e2e8f5;
       --muted:     #5a6685;
       --muted2:    #7a89a8;
@@ -304,6 +306,121 @@
       padding: 3px 9px;
     }
 
+    /* ===== Donasi QRIS ===== */
+    .donate-card {
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px solid rgba(255,177,61,.22);
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .donate-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+    }
+    .donate-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: var(--gold-dim);
+      border: 1px solid rgba(255,177,61,.25);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .donate-icon svg {
+      width: 17px; height: 17px;
+      stroke: var(--gold); fill: none;
+      stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .donate-title-wrap { flex: 1; }
+    .donate-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .9rem; font-weight: 600;
+      color: var(--txt);
+    }
+    .donate-sub {
+      font-size: .68rem;
+      color: var(--muted2);
+      margin-top: 1px;
+    }
+    .donate-toggle {
+      background: var(--gold-dim);
+      border: 1px solid rgba(255,177,61,.25);
+      color: var(--gold);
+      font-size: .64rem;
+      font-weight: 700;
+      letter-spacing: .03em;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: filter .15s;
+    }
+    .donate-toggle:hover { filter: brightness(1.15); }
+
+    .donate-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s cubic-bezier(.4,0,.2,1);
+    }
+    .donate-body.open { max-height: 600px; }
+
+    .donate-body-inner {
+      padding: 22px 22px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .qris-frame {
+      position: relative;
+      padding: 12px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(255,177,61,.15);
+      margin-bottom: 14px;
+    }
+    .qris-img {
+      width: 200px;
+      height: 200px;
+      display: block;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+    .qris-badge-corner {
+      position: absolute;
+      bottom: -9px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: #1a1206;
+      font-size: .58rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      padding: 3px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .donate-merchant {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--txt);
+      margin-bottom: 2px;
+    }
+    .donate-note {
+      font-size: .72rem;
+      color: var(--muted2);
+      line-height: 1.6;
+      max-width: 320px;
+      margin-bottom: 0;
+    }
+
     .tg-btn {
       display: flex;
       align-items: center;
@@ -587,6 +704,32 @@
 
   </div>
 
+  <!-- ===== DUKUNGAN QRIS ===== -->
+  <div class="donate-card">
+    <div class="donate-header">
+      <div class="donate-icon">
+        <svg viewBox="0 0 24 24"><path d="M20.42 4.58a5.4 5.4 0 00-7.65 0L12 5.35l-.77-.77a5.4 5.4 0 10-7.65 7.65l.77.78L12 21.23l7.65-7.65.77-.78a5.4 5.4 0 000-7.65z"/></svg>
+      </div>
+      <div class="donate-title-wrap">
+        <div class="donate-title">Dukung Yanzy Dev</div>
+        <div class="donate-sub">Scan QRIS untuk dukungan</div>
+      </div>
+      <button class="donate-toggle" id="donateToggleBtn" onclick="toggleDonate()">Tampilkan</button>
+    </div>
+
+    <div class="donate-body" id="donateBody">
+      <div class="donate-body-inner">
+        <div class="qris-frame">
+          <!-- Ganti src di bawah dengan gambar QRIS asli kamu (didapat dari aplikasi bank/e-wallet kamu) -->
+          <img src="qris.png" alt="QRIS Yanzz Store" class="qris-img"/>
+          <span class="qris-badge-corner">QRIS</span>
+        </div>
+        <div class="donate-merchant">Yanzz Store</div>
+        <p class="donate-note">Ingin bantu Yanzy berkembang? Scan QR di atas.</p>
+      </div>
+    </div>
+  </div>
+
   <a href="https://t.me/yanzysaja" target="_blank" class="tg-btn">
     <div class="tg-icon">
       <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.88 13.47l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.268.089z"/></svg>
@@ -612,7 +755,14 @@
     document.querySelectorAll('.svc.active').forEach(s => s.classList.remove('active'));
     if (!isActive) el.classList.add('active');
   }
+
+  function toggleDonate() {
+    const body = document.getElementById('donateBody');
+    const btn = document.getElementById('donateToggleBtn');
+    const isOpen = body.classList.toggle('open');
+    btn.textContent = isOpen ? 'Sembunyikan' : 'Tampilkan';
+  }
+
 </script>
 </body>
 </html>
-
