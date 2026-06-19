@@ -358,8 +358,12 @@
       cursor: pointer;
       flex-shrink: 0;
       transition: filter .15s;
+      -webkit-tap-highlight-color: transparent;
+      outline: none;
+      user-select: none;
     }
     .donate-toggle:hover { filter: brightness(1.15); }
+    .donate-toggle:focus { outline: none; }
 
     .donate-body {
       max-height: 0;
