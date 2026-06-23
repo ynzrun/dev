@@ -31,7 +31,7 @@ body {
   background-image: url('bg.png');
   background-size: cover;
   background-position: center;
-  background-attachment: scroll; /* FIX: fixed → scroll, mobile bug */
+  background-attachment: scroll;
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
   display: flex;
@@ -41,7 +41,7 @@ body {
   color: var(--txt);
   line-height: 1.6;
   position: relative;
-  overflow-x: hidden; /* FIX: cegah horizontal scroll */
+  overflow-x: hidden;
   width: 100%;
 }
 
@@ -59,7 +59,7 @@ body::before {
   max-width: 500px;
   position: relative;
   z-index: 1;
-  overflow-x: hidden; /* FIX: cegah child element overflow */
+  overflow-x: hidden;
 }
 
 /* ===== HERO ===== */
@@ -170,7 +170,7 @@ body::before {
   border: none;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  min-width: 0; /* FIX: flex item bisa menyusut */
+  min-width: 0;
 }
 .cta-row .btn-primary {
   background: var(--accent);
@@ -238,7 +238,7 @@ body::before {
   overflow: hidden;
   backdrop-filter: blur(10px);
   min-height: 120px;
-  min-width: 0; /* FIX: grid item tidak overflow */
+  min-width: 0;
 }
 .service-card:hover {
   border-color: var(--border2);
@@ -274,7 +274,7 @@ body::before {
 .service-card .name {
   font-weight: 600;
   font-size: 0.85rem;
-  word-break: break-word; /* FIX: teks panjang tidak overflow */
+  word-break: break-word;
 }
 .service-card .desc {
   font-size: 0.7rem;
@@ -554,7 +554,7 @@ body::before {
   display: flex;
   justify-content: center;
   gap: 16px;
-  flex-wrap: wrap; /* FIX: wrap di layar kecil */
+  flex-wrap: wrap;
 }
 .footer a {
   color: var(--muted2);
@@ -679,6 +679,14 @@ body::before {
   background: var(--accent);
   box-shadow: 0 4px 20px var(--accent-glow);
 }
+.popup-box .btn-group .btn-ig {
+  background: #E1306C;
+  box-shadow: 0 4px 20px rgba(225, 48, 108, 0.3);
+}
+.popup-box .btn-group .btn-ig:hover {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+}
 .popup-box .btn-group .btn-close {
   background: transparent;
   color: var(--muted2);
@@ -730,4 +738,4 @@ body::before {
   .service-card {
     min-height: 100px;
   }
-}
+  }
