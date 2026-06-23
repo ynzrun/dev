@@ -87,8 +87,6 @@ function closePopup() {
   document.getElementById('popupOverlay').classList.remove('show');
 }
 
-setTimeout(showPopup, 5000);
-
 document.getElementById('popupOverlay').addEventListener('click', function(e) {
   if (e.target === this) closePopup();
 });
