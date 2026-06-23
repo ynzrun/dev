@@ -90,3 +90,54 @@ function closePopup() {
 document.getElementById('popupOverlay').addEventListener('click', function(e) {
   if (e.target === this) closePopup();
 });
+
+// ========================================
+// ===== PROTEKSI COPY PASTE (Tanpa Notifikasi) =====
+// ========================================
+
+// 1. Nonaktifkan klik kanan
+document.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+  return false;
+});
+
+// 2. Nonaktifkan semua shortcut
+document.addEventListener('keydown', function(e) {
+  if (e.ctrlKey) {
+    if (e.key === 'c' || e.key === 'v' || e.key === 'u' || 
+        e.key === 'i' || e.key === 'j' || e.key === 's' || 
+        e.key === 'a' || e.key === 'p' || e.key === 'f') {
+      e.preventDefault();
+      return false;
+    }
+  }
+  
+  if (e.ctrlKey && e.shiftKey) {
+    if (e.key === 'I' || e.key === 'C' || e.key === 'J' || e.key === 'K') {
+      e.preventDefault();
+      return false;
+    }
+  }
+  
+  if (e.key === 'F12') {
+    e.preventDefault();
+    return false;
+  }
+});
+
+// 3. Nonaktifkan drag
+document.addEventListener('dragstart', function(e) {
+  e.preventDefault();
+  return false;
+});
+
+// 4. Nonaktifkan copy & paste event
+document.addEventListener('copy', function(e) {
+  e.preventDefault();
+  return false;
+});
+
+document.addEventListener('paste', function(e) {
+  e.preventDefault();
+  return false;
+});
