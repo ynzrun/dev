@@ -3,770 +3,214 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Yanzy Dev</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-
-    :root {
-      --bg:        #0d0f14;
-      --surface:   #13161d;
-      --surface2:  #181c24;
-      --border:    #1e2330;
-      --border2:   #252b3a;
-      --blue:      #3d7fff;
-      --blue-dim:  rgba(61,127,255,.12);
-      --blue-glow: rgba(61,127,255,.25);
-      --green:     #00e5a0;
-      --green-dim: rgba(0,229,160,.1);
-      --gold:      #ffb13d;
-      --gold-dim:  rgba(255,177,61,.12);
-      --txt:       #e2e8f5;
-      --muted:     #5a6685;
-      --muted2:    #7a89a8;
-    }
-
-    body {
-      background: var(--bg);
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 48px 20px;
-    }
-
-    body::before {
-      content:'';
-      position:fixed; inset:0;
-      background-image: radial-gradient(circle, #1e2330 1px, transparent 1px);
-      background-size: 28px 28px;
-      opacity:.5;
-      pointer-events:none;
-      z-index:0;
-    }
-
-    .page {
-      width: 100%;
-      max-width: 480px;
-      position: relative;
-      z-index:1;
-    }
-
-    .header {
-      position: relative;
-      border-radius: 24px;
-      padding: 2px;
-      margin-bottom: 12px;
-      overflow: hidden;
-      background: linear-gradient(120deg, #3d7fff, #00e5a0, #7b5ea7, #3d7fff);
-      background-size: 300% 300%;
-      animation: borderFlow 5s linear infinite;
-    }
-    .header-inner {
-      position:relative; z-index:1;
-      background: linear-gradient(145deg, #151923 0%, #0f1319 100%);
-      border-radius: 23px;
-      padding: 26px 24px 22px;
-    }
-    @keyframes borderFlow {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .header-top {
-      display:flex; align-items:center;
-      justify-content:space-between;
-      margin-bottom: 14px;
-    }
-
-    .brand-wrap {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .brand-logo {
-      width: 36px; height: 36px;
-      border-radius: 10px;
-      object-fit: cover;
-      flex-shrink: 0;
-    }
-    .brand {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: -.04em;
-      line-height: 1;
-    }
-    .brand .dot { color: var(--blue); }
-    .brand .ext { font-size: .85rem; font-weight: 400; color: var(--muted2); letter-spacing: 0; }
-
-    .status-pill {
-      display:flex; align-items:center;
-      background: var(--green-dim);
-      border: 1px solid rgba(0,229,160,.18);
-      border-radius: 6px;
-      padding: 3px 8px;
-      font-size: .58rem;
-      font-weight: 700;
-      color: var(--green);
-      letter-spacing: .06em;
-      text-transform: uppercase;
-    }
-
-    .tg-btn-small {
-      display:flex; align-items:center;
-      gap: 5px;
-      background: var(--blue);
-      color: #fff;
-      text-decoration: none;
-      font-size: .62rem;
-      font-weight: 700;
-      letter-spacing: .02em;
-      padding: 5px 10px;
-      border-radius: 8px;
-      flex-shrink: 0;
-      box-shadow: 0 2px 12px rgba(61,127,255,.35);
-      transition: filter .18s, transform .18s;
-    }
-    .tg-btn-small:hover {
-      filter: brightness(1.12);
-      transform: translateY(-1px);
-    }
-    .tg-btn-small svg {
-      width: 12px; height: 12px;
-      fill: #fff;
-      flex-shrink: 0;
-    }
-
-    .header-desc {
-      font-size: .82rem;
-      color: var(--muted2);
-      line-height: 1.65;
-    }
-    .header-desc strong { color: var(--txt); font-weight: 500; }
-
-    .card {
-      background: var(--surface);
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-      margin-bottom: 12px;
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 22px;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface2);
-    }
-    .card-label {
-      font-size: .62rem;
-      font-weight: 700;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .card-count {
-      font-size: .62rem;
-      font-weight: 600;
-      color: var(--muted);
-      background: var(--border2);
-      border-radius: 999px;
-      padding: 2px 9px;
-    }
-
-    .svc {
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
-      transition: background .15s;
-      -webkit-tap-highlight-color: transparent;
-      outline: none;
-      user-select: none;
-    }
-    .svc:last-child { border-bottom: none; }
-    .svc.active { background: rgba(61,127,255,.06); }
-
-    .svc-row {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 13px 20px;
-    }
-    .svc:hover .svc-row { background: rgba(255,255,255,.015); }
-    .svc.active .svc-row { background: transparent; }
-    .svc:hover .svc-icon,
-    .svc.active .svc-icon { box-shadow: 0 0 14px var(--blue-glow); }
-
-    .svc-icon {
-      width: 38px; height: 38px;
-      border-radius: 11px;
-      background: var(--blue-dim);
-      border: 1px solid rgba(61,127,255,.18);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      transition: box-shadow .2s, background .2s;
-    }
-    .svc.active .svc-icon {
-      background: rgba(61,127,255,.2);
-      border-color: rgba(61,127,255,.4);
-    }
-    .svc-icon svg {
-      width: 16px; height: 16px;
-      stroke: var(--blue); fill: none;
-      stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
-    }
-
-    .svc-body { flex: 1; min-width: 0; }
-    .svc-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: .86rem; font-weight: 600;
-      color: var(--txt);
-      transition: color .15s;
-    }
-    .svc.active .svc-name { color: #fff; }
-
-    .badge {
-      font-size: .58rem; font-weight: 700;
-      color: var(--green);
-      background: var(--green-dim);
-      border: 1px solid rgba(0,229,160,.18);
-      border-radius: 6px;
-      padding: 3px 8px;
-      flex-shrink: 0;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-    }
-
-    .svc-chevron {
-      flex-shrink: 0;
-      width: 16px; height: 16px;
-      color: var(--muted);
-      transition: transform .25s ease, color .15s;
-    }
-    .svc.active .svc-chevron {
-      transform: rotate(180deg);
-      color: var(--blue);
-    }
-
-    .svc-detail {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height .35s cubic-bezier(.4,0,.2,1);
-    }
-    .svc.active .svc-detail { max-height: 400px; }
-
-    .svc-detail-inner {
-      margin: 0 14px 14px;
-      background: var(--surface2);
-      border: 1px solid var(--border2);
-      border-radius: 14px;
-      padding: 16px 18px;
-      opacity: 0;
-      transform: translateY(-6px);
-      transition: opacity .25s ease .05s, transform .25s ease .05s;
-    }
-    .svc.active .svc-detail-inner {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .detail-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: .78rem;
-      font-weight: 600;
-      color: var(--blue);
-      margin-bottom: 8px;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-    }
-    .detail-text {
-      font-size: .78rem;
-      color: var(--muted2);
-      line-height: 1.7;
-      margin-bottom: 12px;
-    }
-
-    .detail-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .detail-tag {
-      font-size: .64rem;
-      font-weight: 500;
-      color: var(--muted2);
-      background: var(--border2);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 3px 9px;
-    }
-
-    /* ===== Donasi QRIS ===== */
-    .donate-card {
-      background: var(--surface);
-      border-radius: 20px;
-      border: 1px solid rgba(255,177,61,.22);
-      overflow: hidden;
-      margin-bottom: 12px;
-    }
-    .donate-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface2);
-    }
-    .donate-icon {
-      width: 36px; height: 36px;
-      border-radius: 10px;
-      background: var(--gold-dim);
-      border: 1px solid rgba(255,177,61,.25);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .donate-icon svg {
-      width: 17px; height: 17px;
-      stroke: var(--gold); fill: none;
-      stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
-    }
-    .donate-title-wrap { flex: 1; }
-    .donate-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: .9rem; font-weight: 600;
-      color: var(--txt);
-    }
-    .donate-sub {
-      font-size: .68rem;
-      color: var(--muted2);
-      margin-top: 1px;
-    }
-    .donate-toggle {
-      background: var(--gold-dim);
-      border: 1px solid rgba(255,177,61,.25);
-      color: var(--gold);
-      font-size: .64rem;
-      font-weight: 700;
-      letter-spacing: .03em;
-      padding: 6px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: filter .15s;
-      -webkit-tap-highlight-color: transparent;
-      outline: none;
-      user-select: none;
-    }
-    .donate-toggle:hover { filter: brightness(1.15); }
-    .donate-toggle:focus { outline: none; }
-
-    .donate-body {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height .4s cubic-bezier(.4,0,.2,1);
-    }
-    .donate-body.open { max-height: 600px; }
-
-    .donate-body-inner {
-      padding: 22px 22px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .qris-frame {
-      position: relative;
-      padding: 12px;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(255,177,61,.15);
-      margin-bottom: 14px;
-    }
-    .qris-img {
-      width: 200px;
-      height: 200px;
-      display: block;
-      object-fit: contain;
-      border-radius: 6px;
-    }
-    .qris-badge-corner {
-      position: absolute;
-      bottom: -9px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--gold);
-      color: #1a1206;
-      font-size: .58rem;
-      font-weight: 800;
-      letter-spacing: .08em;
-      padding: 3px 10px;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-
-    .donate-merchant {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: .85rem;
-      font-weight: 600;
-      color: var(--txt);
-      margin-bottom: 2px;
-    }
-    .donate-note {
-      font-size: .72rem;
-      color: var(--muted2);
-      line-height: 1.6;
-      max-width: 320px;
-      margin-bottom: 0;
-    }
-
-    .tg-btn {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      background: var(--blue);
-      padding: 18px 22px;
-      text-decoration: none;
-      color: #fff;
-      width: 100%;
-      border-radius: 20px;
-      transition: filter .18s, transform .18s, box-shadow .18s;
-      box-shadow: 0 4px 28px rgba(61,127,255,.35);
-      position: relative;
-      overflow: hidden;
-    }
-    .tg-btn::before {
-      content:'';
-      position:absolute; inset:0;
-      background: linear-gradient(120deg, transparent 60%, rgba(255,255,255,.08) 100%);
-    }
-    .tg-btn:hover {
-      filter: brightness(1.12);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 36px rgba(61,127,255,.45);
-    }
-    .tg-btn:active { transform: translateY(0); }
-
-    .tg-icon {
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.16);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .tg-icon svg { width: 22px; height: 22px; fill: #fff; }
-
-    .tg-body { flex: 1; }
-    .tg-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: .95rem; font-weight: 700;
-      margin-bottom: 2px;
-    }
-    .tg-sub { font-size: .73rem; opacity: .65; }
-
-    .tg-arrow {
-      font-size: 1.1rem;
-      opacity: .5;
-      transition: opacity .15s, transform .15s;
-    }
-    .tg-btn:hover .tg-arrow { opacity: 1; transform: translate(2px,-2px); }
-
-    .footer {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 20px;
-    }
-    .footer-chip {
-      font-size: .64rem;
-      color: var(--muted);
-      display: flex; align-items: center; gap: 5px;
-    }
-    .footer-chip::before {
-      content:'';
-      width:3px; height:3px;
-      border-radius:50%;
-      background: var(--muted);
-    }
-    .footer-chip:first-child::before { display:none; }
-  </style>
+  <title>Yanzy Dev — Build Anything</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
+
 <div class="page">
 
-  <div class="header">
-    <div class="header-inner">
-      <div class="header-top">
-        <div class="brand-wrap">
-          <img src="yanzy.png" alt="Logo" class="brand-logo"/>
-          <div class="brand">
-            Yanzy<span class="ext">dev</span>
-          </div>
-        </div>
-        <a href="https://t.me/yanzysaja" target="_blank" class="tg-btn-small">
-          <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.88 13.47l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.268.089z"/></svg>
-          <span>Order via Telegram</span>
-        </a>
-      </div>
-      <p class="header-desc">
-        Jasa pembuatan <strong>tools, script, APK, website, hosting, </strong> dan masih banyak lagi — cepat, rapi, dan terpercaya.
-      </p>
+  <!-- ===== HERO ===== -->
+  <div class="hero">
+    <div class="hero-avatar">
+      <img src="yanzy.png" alt="Yanzy Dev" />
+    </div>
+    <h1>Yanzy<span>Dev</span></h1>
+    <p>Build anything — from bots, scripts, to modern websites.</p>
+    <span class="hero-badge">
+      <svg viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Siap Bantu Proyekmu
+    </span>
+
+    <div class="cta-row">
+      <a href="https://t.me/yanzysaja" target="_blank" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.88 13.47l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.268.089z"/></svg>
+        Telegram
+      </a>
+      <a href="https://wa.me/6281234567890?text=Halo%20Yanzy,%20saya%20butuh%20bantuan" target="_blank" class="btn btn-secondary">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-header">
-      <span class="card-label">Layanan Tersedia</span>
-      <span class="card-count">7 Layanan</span>
-    </div>
+  <!-- ===== LAYANAN ===== -->
+  <div class="section-label">
+    <span>Layanan</span>
+    <span class="count">6</span>
+  </div>
 
-    <div class="svc" onclick="toggle(this)">
-      <div class="svc-row">
-        <div class="svc-icon">
-          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-        </div>
-        <div class="svc-body">
-          <div class="svc-name">Tools</div>
-        </div>
-        <span class="badge">Ready</span>
-        <svg class="svc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  <div class="service-grid">
+
+    <!-- Bot & Automation -->
+    <div class="service-card" data-target="detail-bot">
+      <div class="icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1a7 7 0 0 1-7 7h-1v1a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-1H7a7 7 0 0 1-7-7H1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/>
+          <circle cx="9" cy="12" r="1.5"/>
+          <circle cx="15" cy="12" r="1.5"/>
+          <path d="M9 16c.85.63 1.87 1 3 1s2.15-.37 3-1"/>
+        </svg>
       </div>
-      <div class="svc-detail">
-        <div class="svc-detail-inner">
-          <div class="detail-title">Tentang Layanan</div>
-          <div class="detail-text">Pembuatan tools custom sesuai kebutuhan kamu — mulai dari bot otomatis, tools scraping data, auto-responder, hingga utilitas khusus untuk mempermudah workflow sehari-hari.</div>
-          <div class="detail-tags">
-            <span class="detail-tag">Telegram Bot</span>
-            <span class="detail-tag">Discord Bot</span>
-            <span class="detail-tag">Automation</span>
-            <span class="detail-tag">CLI Tools</span>
-            <span class="detail-tag">Scraping</span>
-          </div>
-        </div>
+      <div class="name">Bot & Automation</div>
+      <div class="desc">Bot, scraping, otomatisasi untuk segala platform</div>
+      <span class="badge">Ready</span>
+      <div class="click-hint">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        Klik untuk detail
       </div>
     </div>
 
-    <div class="svc" onclick="toggle(this)">
-      <div class="svc-row">
-        <div class="svc-icon">
-          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-        </div>
-        <div class="svc-body">
-          <div class="svc-name">Script</div>
-        </div>
-        <span class="badge">Ready</span>
-        <svg class="svc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="svc-detail">
-        <div class="svc-detail-inner">
-          <div class="detail-title">Tentang Layanan</div>
-          <div class="detail-text">Script untuk berbagai keperluan: web scraping data, auto-click & macro game, script farming, auto-form filler, hingga scheduled task dan batch processing.</div>
-          <div class="detail-tags">
-            <span class="detail-tag">Python</span>
-            <span class="detail-tag">JavaScript</span>
-            <span class="detail-tag">AutoHotkey</span>
-            <span class="detail-tag">Bash / Shell</span>
-            <span class="detail-tag">Macro</span>
-          </div>
-        </div>
+    <!-- Hosting -->
+    <div class="service-card" data-target="detail-hosting">
+      <div class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+      <div class="name">Hosting</div>
+      <div class="desc">VPS, domain, SSL, deployment</div>
+      <span class="badge">Ready</span>
+      <div class="click-hint">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        Klik untuk detail
       </div>
     </div>
 
-    <div class="svc" onclick="toggle(this)">
-      <div class="svc-row">
-        <div class="svc-icon">
-          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-        </div>
-        <div class="svc-body">
-          <div class="svc-name">Hosting</div>
-        </div>
-        <span class="badge">Ready</span>
-        <svg class="svc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="svc-detail">
-        <div class="svc-detail-inner">
-          <div class="detail-title">Tentang Layanan</div>
-          <div class="detail-text">Setup dan konfigurasi hosting dari nol — VPS, shared hosting, domain, SSL, control panel (cPanel/Plesk/DirectAdmin), nginx/apache config, hingga deployment aplikasi.</div>
-          <div class="detail-tags">
-            <span class="detail-tag">VPS Setup</span>
-            <span class="detail-tag">Domain & SSL</span>
-            <span class="detail-tag">Nginx / Apache</span>
-            <span class="detail-tag">cPanel</span>
-            <span class="detail-tag">Docker</span>
-          </div>
-        </div>
+    <!-- Project APK -->
+    <div class="service-card" data-target="detail-apk">
+      <div class="icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+      <div class="name">Project APK</div>
+      <div class="desc">Aplikasi Android custom</div>
+      <span class="badge">Ready</span>
+      <div class="click-hint">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        Klik untuk detail
       </div>
     </div>
 
-    <div class="svc" onclick="toggle(this)">
-      <div class="svc-row">
-        <div class="svc-icon">
-          <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-        </div>
-        <div class="svc-body">
-          <div class="svc-name">Project APK</div>
-        </div>
-        <span class="badge">Ready</span>
-        <svg class="svc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="svc-detail">
-        <div class="svc-detail-inner">
-          <div class="detail-title">Tentang Layanan</div>
-          <div class="detail-text">Pembuatan aplikasi Android dari nol sesuai kebutuhan. Bisa berupa app utility, toko online sederhana, app komunitas, atau tools internal bisnis. Output berupa file APK siap install.</div>
-          <div class="detail-tags">
-            <span class="detail-tag">Flutter</span>
-            <span class="detail-tag">Java</span>
-            <span class="detail-tag">Kotlin</span>
-            <span class="detail-tag">Firebase</span>
-            <span class="detail-tag">REST API</span>
-          </div>
-        </div>
+    <!-- Function & Plugin -->
+    <div class="service-card" data-target="detail-function">
+      <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07M8.46 8.46a5 5 0 000 7.07"/></svg></div>
+      <div class="name">Function & Plugin</div>
+      <div class="desc">Library, plugin, DLL, extension</div>
+      <span class="badge">Ready</span>
+      <div class="click-hint">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        Klik untuk detail
       </div>
     </div>
 
-    <div class="svc" onclick="toggle(this)">
-      <div class="svc-row">
-        <div class="svc-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07M8.46 8.46a5 5 0 000 7.07"/></svg>
-        </div>
-        <div class="svc-body">
-          <div class="svc-name">Function</div>
-        </div>
-        <span class="badge">Ready</span>
-        <svg class="svc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="svc-detail">
-        <div class="svc-detail-inner">
-          <div class="detail-title">Tentang Layanan</div>
-          <div class="detail-text">Pembuatan fungsi dan library custom yang bisa di-inject atau digunakan oleh software tertentu. Cocok untuk plugin, extension, atau integrasi dengan aplikasi legacy.</div>
-          <div class="detail-tags">
-            <span class="detail-tag">C / C++</span>
-            <span class="detail-tag">C#</span>
-            <span class="detail-tag">DLL Inject</span>
-            <span class="detail-tag">Win32 API</span>
-            <span class="detail-tag">Plugin</span>
-          </div>
-        </div>
+    <!-- Design Website -->
+    <div class="service-card" data-target="detail-web">
+      <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+      <div class="name">Design Website</div>
+      <div class="desc">Landing page, portofolio, toko online</div>
+      <span class="badge">Ready</span>
+      <div class="click-hint">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        Klik untuk detail
       </div>
     </div>
 
-    <div class="svc" onclick="toggle(this)">
-      <div class="svc-row">
-        <div class="svc-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-        </div>
-        <div class="svc-body">
-          <div class="svc-name">Design Website</div>
-        </div>
-        <span class="badge">Ready</span>
-        <svg class="svc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="svc-detail">
-        <div class="svc-detail-inner">
-          <div class="detail-title">Tentang Layanan</div>
-          <div class="detail-text">Desain dan development website modern — landing page promosi, portofolio personal, profil bisnis, hingga toko online. Responsive, cepat, dan tampilan profesional.</div>
-          <div class="detail-tags">
-            <span class="detail-tag">HTML / CSS</span>
-            <span class="detail-tag">React</span>
-            <span class="detail-tag">Next.js</span>
-            <span class="detail-tag">Responsive</span>
-            <span class="detail-tag">Landing Page</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="svc" onclick="toggle(this)">
-      <div class="svc-row">
-        <div class="svc-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-        </div>
-        <div class="svc-body">
-          <div class="svc-name">Dan Lainnya</div>
-        </div>
-        <span class="badge">Ready</span>
-        <svg class="svc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="svc-detail">
-        <div class="svc-detail-inner">
-          <div class="detail-title">Tentang Layanan</div>
-          <div class="detail-text">Ada kebutuhan di luar list di atas? Tidak masalah. Langsung hubungi via Telegram dan ceritakan kebutuhanmu — akan didiskusikan bersama untuk menemukan solusi terbaik.</div>
-          <div class="detail-tags">
-            <span class="detail-tag">Custom Order</span>
-            <span class="detail-tag">Konsultasi Gratis</span>
-            <span class="detail-tag">Harga Fleksibel</span>
-          </div>
-        </div>
+    <!-- Dan Lainnya -->
+    <div class="service-card" data-target="detail-lainnya">
+      <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></div>
+      <div class="name">Dan Lainnya</div>
+      <div class="desc">Ada kebutuhan khusus? Konsultasi gratis</div>
+      <span class="badge">Custom</span>
+      <div class="click-hint">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        Klik untuk detail
       </div>
     </div>
 
   </div>
 
-  <!-- ===== DUKUNGAN QRIS ===== -->
-  <div class="donate-card">
-    <div class="donate-header">
-      <div class="donate-icon">
-        <svg viewBox="0 0 24 24"><path d="M20.42 4.58a5.4 5.4 0 00-7.65 0L12 5.35l-.77-.77a5.4 5.4 0 10-7.65 7.65l.77.78L12 21.23l7.65-7.65.77-.78a5.4 5.4 0 000-7.65z"/></svg>
+  <!-- ===== QRIS / DONASI ===== -->
+  <div class="donate-section">
+    <div class="donate-header" onclick="toggleDonate()">
+      <div class="left">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M20.42 4.58a5.4 5.4 0 00-7.65 0L12 5.35l-.77-.77a5.4 5.4 0 10-7.65 7.65l.77.78L12 21.23l7.65-7.65.77-.78a5.4 5.4 0 000-7.65z"/></svg>
+        </div>
+        <div>
+          <div class="label">Dukung Yanzy Dev</div>
+          <div class="sub">Scan QRIS — support biar makin semangat</div>
+        </div>
       </div>
-      <div class="donate-title-wrap">
-        <div class="donate-title">Dukung Yanzy Dev</div>
-        <div class="donate-sub">Scan QRIS untuk dukungan</div>
-      </div>
-      <button class="donate-toggle" id="donateToggleBtn" onclick="toggleDonate()">Tampilkan</button>
+      <span class="arrow">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </span>
     </div>
-
     <div class="donate-body" id="donateBody">
       <div class="donate-body-inner">
-        <div class="qris-frame">
-          <!-- Ganti src di bawah dengan gambar QRIS asli kamu (didapat dari aplikasi bank/e-wallet kamu) -->
-          <img src="qris.png" alt="QRIS Yanzz Store" class="qris-img"/>
-          <span class="qris-badge-corner">QRIS</span>
+        <div class="qris">
+          <img src="qris.png" alt="QRIS" />
         </div>
-        <div class="donate-merchant">Yanzz Store</div>
-        <p class="donate-note">Ingin bantu Yanzy berkembang? Scan QR di atas.</p>
+        <div class="merchant">Yanzz Store</div>
+        <div class="note">Terima kasih untuk dukungannya 🙏</div>
       </div>
     </div>
   </div>
 
-  <a href="https://t.me/yanzysaja" target="_blank" class="tg-btn">
-    <div class="tg-icon">
-      <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.88 13.47l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.268.089z"/></svg>
-    </div>
-    <div class="tg-body">
-      <div class="tg-title">Order via Telegram</div>
-      <div class="tg-sub">@yanzysaja</div>
-    </div>
-    <span class="tg-arrow">↗</span>
-  </a>
-
+  <!-- ===== FOOTER ===== -->
   <div class="footer">
-    <span class="footer-chip">Respon Cepat</span>
-    <span class="footer-chip">Harga Terjangkau</span>
-    <span class="footer-chip">Hasil Terpercaya</span>
+    <a href="https://t.me/yanzysaja" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.88 13.47l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.268.089z"/></svg>
+      Telegram
+    </a>
+    <a href="https://wa.me/6281234567890" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+    <a href="https://instagram.com/yanzysaja" target="_blank">
+      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="18" cy="6" r="1.2"/></svg>
+      Instagram
+    </a>
   </div>
 
 </div>
 
-<script>
-  function toggle(el) {
-    const isActive = el.classList.contains('active');
-    document.querySelectorAll('.svc.active').forEach(s => s.classList.remove('active'));
-    if (!isActive) el.classList.add('active');
-  }
+<!-- ===== MODAL DETAIL LAYANAN ===== -->
+<div class="modal-overlay" id="serviceModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="modal-icon" id="modalIcon">
+      <svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1a7 7 0 0 1-7 7h-1v1a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-1H7a7 7 0 0 1-7-7H1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><path d="M9 16c.85.63 1.87 1 3 1s2.15-.37 3-1"/></svg>
+    </div>
+    <div class="modal-title" id="modalTitle">Bot & Automation</div>
+    <div class="modal-text" id="modalText">Butuh bot yang bisa dipakai di Telegram, WhatsApp, Discord, Twitter, atau platform lain? Atau butuh script buat ambil data dari ratusan website dalam hitungan menit? Saya bikin semuanya — mulai dari bot chat interaktif, auto-reply, scraping data, auto-form filler, macro, sampai batch processing. Apapun kebutuhan otomatisasi kamu, saya wujudin.</div>
+    <div class="modal-tags" id="modalTags">
+      <span>Bot (Telegram/WA/Discord)</span>
+      <span>Web Scraping</span>
+      <span>Auto-Reply</span>
+      <span>Batch Processing</span>
+    </div>
+  </div>
+</div>
 
-  function toggleDonate() {
-    const body = document.getElementById('donateBody');
-    const btn = document.getElementById('donateToggleBtn');
-    const isOpen = body.classList.toggle('open');
-    btn.textContent = isOpen ? 'Sembunyikan' : 'Tampilkan';
-  }
+<!-- ===== POPUP ===== -->
+<div class="popup-overlay" id="popupOverlay">
+  <div class="popup-box">
+    <div class="popup-icon">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    </div>
+    <h3>Ada yang bisa dibantu?</h3>
+    <p>Butuh bot, script, atau website?<br/>Yuk chat aja — konsultasi gratis.</p>
+    <div class="btn-group">
+      <a href="https://wa.me/6281234567890?text=Halo%20Yanzy,%20saya%20butuh%20bantuan" target="_blank" class="btn-pop btn-wa">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat via WhatsApp
+      </a>
+      <a href="https://t.me/yanzysaja" target="_blank" class="btn-pop btn-tg">
+        <svg viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.88 13.47l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.268.089z"/></svg>
+        Telegram
+      </a>
+      <button class="btn-pop btn-close" onclick="closePopup()">Nanti saja</button>
+    </div>
+  </div>
+</div>
 
-</script>
+<script src="script.js"></script>
 </body>
 </html>
