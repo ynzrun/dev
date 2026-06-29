@@ -28,7 +28,7 @@ const serviceData = {
     icon: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>',
     title: 'Design Website',
     text: 'Mau bisnis kamu keliatan lebih profesional di mata klien? Landing page yang bikin orang penasaran, portofolio yang bikin klien percaya, toko online yang gampang diakses. Responsif di HP, loading cepat, dan desain yang bikin bisnis kamu keliatan lebih profesional dari kompetitor.',
-    tags: ['HTML/CSS', 'React', 'Next.js', 'Responsive']
+    tags: ['HTML/CSS', 'React', 'Next.js', 'Laravel', 'Responsive']
   },
   'detail-lainnya': {
     icon: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>',
